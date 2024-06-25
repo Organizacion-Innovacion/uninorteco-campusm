@@ -1,6 +1,6 @@
 {
   "name": "@ombiel/disponibilidad-salas",
-  "version": "1.0.8",
+  "version": "1.0.81",
   "repository": "-",
   "license": "UNLICENSED",
   "scripts": {
@@ -47,8 +47,7 @@
     "access": {
       "write": {
         "users": [
-          "na::uninorte_admin",
-          "pn::uninorte_admin"
+          "na::uninorte_admin"
         ]
       }
     },
