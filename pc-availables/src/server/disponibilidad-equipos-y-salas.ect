@@ -11,7 +11,7 @@
 << block "init": >>
 
 {% if aek.action == "get-data" %}
-  {% set service = aek.create_service("https://us-central1-api-disponibilidad.cloudfunctions.net/api/salas") %}
+  {% set service = aek.create_service("https://us-central1-fake-api-062024.cloudfunctions.net/api/salas") %}
   
   {{ service.set_method("GET") }}
   {{ aek.respond(service.json) }}

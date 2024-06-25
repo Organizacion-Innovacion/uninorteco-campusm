@@ -1,77 +1,65 @@
 import React from 'react';
-import { Typography, Card, CardActionArea, CardContent, Grid, makeStyles, Divider } from '@material-ui/core';
-import DesktopWindowsIcon from '@material-ui/icons/DesktopWindows'; // Icono para equipos de sala
-import LaptopIcon from '@material-ui/icons/Laptop'; // Icono para equipos de préstamo
+import { Typography, Card, CardActionArea, CardContent, Grid } from '@mui/material';
+import LaptopIcon from '@mui/icons-material/Laptop';
+import { styled } from '@mui/system';
 
-// Estilos personalizados
-const useStyles = makeStyles((theme) => ({
-  card: {
-    position: 'relative',
-    '&::before': {
-      content: '""',
-      position: 'absolute',
-      top: 0,
-      width: '8px',
-      height: '100%',
-      borderTopLeftRadius: '4px',
-      borderBottomLeftRadius: '4px',
-      backgroundColor: theme.palette.primary.main, // Color del borde izquierdo
-    },
+const CustomCard = styled(Card)({
+  backgroundColor: '#1d1d1b',
+  color: '#ffffff',
+  margin: '15px',
+  border: '1px solid #d10a11',
+  '&:hover': {
+    backgroundColor: '#d10a11',
+    color: '#1d1d1b',
   },
-  rightBorder: {
-    '&::before': {
-      left: 'auto',
-      right: 0,
-      borderTopLeftRadius: 0,
-      borderBottomLeftRadius: 0,
-      borderTopRightRadius: '4px',
-      borderBottomRightRadius: '4px',
-      backgroundColor: theme.palette.secondary.main, // Color del borde derecho
-    },
-  },
-  iconContainer: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  icon: {
-    marginRight: theme.spacing(1), // Espacio entre el icono y el texto
-  },
-  number: {
-    marginRight: theme.spacing(1), // Espacio entre el número y el icono
-  },
-}));
+});
 
-const SalaUsuarioItem = ({ sala, isRight }) => {
-  const classes = useStyles(); // Inicializar los estilos
+const CustomCardActionArea = styled(CardActionArea)({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  height: '100%',
+  padding: '10px',
+});
+
+const CustomCardContent = styled(CardContent)({
+  
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+});
+
+const CustomTypography = styled(Typography)({
+  fontWeight: 'bold',
+});
+
+const CustomLaptopIcon = styled(LaptopIcon)({
+  color: '#d10a11',
+});
+
+const SalaUsuarioItem = ({ sala }) => {
+  const { nombre, computadorasDisponibles, enlace } = sala; // Destructuración de las propiedades de sala
 
   return (
-    <Card variant="outlined" className={`${classes.card} ${isRight ? classes.rightBorder : ''}`}>
-      <CardActionArea href={sala.enlace} target="_blank" rel="noopener noreferrer">
-        <CardContent>
-          <Typography variant="h5" component="h2">
-            {sala.nombre}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" gutterBottom>
-            Bloque: {sala.bloque}, Piso: {sala.piso}
-          </Typography>
-          <Grid container justifyContent='flex-end' spacing={2} >
-            <Grid item className={classes.iconContainer}>
-              <LaptopIcon className={classes.icon} />
-              <Typography variant="body2" component="span" className='number'>
-                {sala.equiposPrestamoDisponibles}
-              </Typography>
+    <CustomCard variant="outlined">
+      <CustomCardActionArea href={enlace} target="_blank" rel="noopener noreferrer">
+        <CustomCardContent>
+          <CustomTypography variant="h5" component="h2">
+            {nombre}
+          </CustomTypography>
+          <Grid container alignItems="center">
+            <Grid item>
+              <CustomLaptopIcon />
             </Grid>
-            <Divider orientation="vertical" flexItem />
-            <Grid item className={classes.iconContainer}>
-              <DesktopWindowsIcon className={classes.icon} />
+            <Grid item>
               <Typography variant="body2" component="span">
-                {sala.computadorasDisponibles}
+                {computadorasDisponibles} PCs disponibles
               </Typography>
             </Grid>
           </Grid>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+        </CustomCardContent>
+      </CustomCardActionArea>
+    </CustomCard>
   );
 };
 

@@ -1,37 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Grid, Divider, Container } from '@material-ui/core';
 import SalaUsuarioItem from './SalaUsuarioItem';
-import { fetchData } from '../../../services/get-data'; // Corregido el import
+import { fetchData } from '../../../services/get-data';
+import { Grid } from '@mui/material';
 
 const SalaUsuarioList = () => {
-  const [salasUsuario, setSalasUsuario] = useState([]);
+  const [salas, setSalas] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    obtenerDatosSalaUsuario();
+    fetchData()
+      .then(data => setSalas(data))
+      .catch(err => setError(err));
   }, []);
 
-  const obtenerDatosSalaUsuario = () => {
-    // Utilizar fetchData en lugar de getData
-    fetchData()
-      .then((data) => {
-        setSalasUsuario(data);
-      })
-      .catch((error) => {
-        console.error('Error al obtener los datos:', error);
-      });
-  };
+  if (error) {
+    return <div>Error al cargar las salas: {error.message}</div>;
+  }
+
+  if (salas.length === 0) {
+    return <div>No hay datos de salas disponibles</div>;
+  }
 
   return (
-    <Container style={{ backgroundColor: '#e0e0e0', padding: '20px', height: "100%" }}>
-      <Grid container spacing={2}>
-        {salasUsuario.map((sala, index) => (
-          <Grid item xs={6} key={index}>
-            <SalaUsuarioItem sala={sala} isRight={index % 2 !== 0} />
-            
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
+    <Grid container>
+      {salas.map(sala => (
+        <Grid item xs={6} sm={6} key={sala.id}>
+          <SalaUsuarioItem sala={sala} />
+        </Grid>
+      ))}
+    </Grid>
   );
 };
 

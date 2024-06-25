@@ -1,16 +1,16 @@
 // links.js
 
 const enlaces = {
-    1: "campusm://uniloc?posCode=1000018477",
-    2: "campusm://uniloc?posCode=1000018478",
-    3: "campusm://uniloc?posCode=1000018478",
-    4: "campusm://uniloc?posCode=1000018480",
-    5: "campusm://uniloc?posCode=1000019249",
-    6: "campusm://uniloc?posCode=1000018481",
-    7: "campusm://uniloc?posCode=1000018481",
-    8: "campusm://uniloc?posCode=1000018479",
-    9: "campusm://uniloc?posCode=1000018479",
-    10: "campusm://uniloc?posCode=1000018479"
+    1: "campusm://uniloc?posCode=1000020709",
+    2: "campusm://uniloc?posCode=1000020710",
+    3: "campusm://uniloc?posCode=1000020710",
+    4: "campusm://uniloc?posCode=1000020711",
+    5: "campusm://uniloc?posCode=1000020714",
+    6: "campusm://uniloc?posCode=1000020712",
+    7: "campusm://uniloc?posCode=1000020712",
+    8: "campusm://uniloc?posCode=1000020713",
+    9: "campusm://uniloc?posCode=1000020713",
+    10: "campusm://uniloc?posCode=1000020713"
   };
   
   export const getEnlace = (id) => {
