@@ -1,0 +1,6 @@
+homepage:
+  menu:
+    replace:
+
+      - desc: Servicios Bibliograficos
+        screenName: servicios-bibliograficos
