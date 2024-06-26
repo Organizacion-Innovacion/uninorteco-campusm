@@ -38,9 +38,6 @@ const SalaUsuarioList = () => {
         <Typography variant="h5" component="h1" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
           Error al cargar las salas
         </Typography>
-        <Typography variant="body1">
-          {error.message}
-        </Typography>
       </Box>
     );
   }
@@ -55,15 +52,15 @@ const SalaUsuarioList = () => {
 
   return (
     <>
-      <Box sx={{ backgroundColor: '#d10a11', color: '#fff', textAlign: 'center', padding: '20px', marginBottom: 2, boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
+      <Box sx={{ backgroundColor: '#1d1d1b', color: '#fff', textAlign: 'center', padding: '20px', marginBottom: 2, boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
         <RoomIcon style={{ fontSize: 40, marginBottom: -8, marginRight: 10, verticalAlign: 'middle' }} />
         <Typography variant="h4" component="h1" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
           Lista de Salas disponibles
         </Typography>
       </Box>
-      <Grid container spacing={2}>
+      <Grid container spacing={1}>
         {salas.map(sala => (
-          <Grid item key={sala.id} xs={12} sm={6} md={6} lg={6}>
+          <Grid item key={sala.id} xs={6}>
             <SalaUsuarioItem sala={sala} />
           </Grid>
         ))}
