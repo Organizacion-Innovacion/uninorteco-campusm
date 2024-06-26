@@ -10,12 +10,14 @@ const CustomCard = styled(Card)({
   border: '3px solid #d10a11',
   '&:hover': {
     backgroundColor: '#EEEDEB',
+    color: '#1d1d1b',
   },
 });
 
 const CustomCardActionArea = styled(CardActionArea)({
   display: 'flex',
   flexDirection: 'column',
+  alignItems: 'flex-start',
   height: '100%',
   padding: '10px',
 });
@@ -35,16 +37,16 @@ const CustomLaptopIcon = styled(LaptopIcon)({
 });
 
 const SalaUsuarioItem = ({ sala }) => {
-  const { nombre, computadorasDisponibles, enlace } = sala;
+  const { nombre, computadorasDisponibles, enlace } = sala; // Destructuración de las propiedades de sala
 
   return (
     <CustomCard variant="outlined">
-      <CardActionArea href={enlace} target="_blank" rel="noopener noreferrer" component="div">
-        <CardContent>
+      <CustomCardActionArea component="a" href={enlace} target="_blank" rel="noopener noreferrer">
+        <CustomCardContent>
           <CustomTypography variant="h5" component="h2">
             {nombre}
           </CustomTypography>
-          <Grid container alignItems="center" spacing={1}>
+          <Grid container alignItems="center">
             <Grid item>
               <CustomLaptopIcon />
             </Grid>
@@ -54,10 +56,11 @@ const SalaUsuarioItem = ({ sala }) => {
               </Typography>
             </Grid>
           </Grid>
-        </CardContent>
-      </CardActionArea>
+        </CustomCardContent>
+      </CustomCardActionArea>
     </CustomCard>
   );
 };
 
 export default SalaUsuarioItem;
+
