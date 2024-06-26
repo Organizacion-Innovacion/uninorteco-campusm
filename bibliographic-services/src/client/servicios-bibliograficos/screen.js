@@ -76,19 +76,19 @@ const services = [
   {
     text: 'SIBILA+',
     icon: <Cloud />,
-    link: 'https://primo-tc-na01.hosted.exlibrisgroup.com/primo-explore/search?search_scope=uninorte_completo&vid=UNINORTE&lang=es_CO',
+    link: 'campusm://openURL?url=https://primo-tc-na01.hosted.exlibrisgroup.com/primo-explore/search?search_scope=uninorte_completo&vid=UNINORTE&lang=es_CO',
     description: 'Accede a una plataforma avanzada de búsqueda que te permite encontrar recursos académicos de manera rápida y eficiente.',
   },
   {
     text: 'AtoZ',
     icon: <LibraryBooks />,
-    link: 'http://ezproxy.uninorte.edu.co:2048/login?url=http://sfxna11.hosted.exlibrisgroup.com/57UNINORTE/az?lang=spa',
+    link: 'campusm://openURL?url=http://ezproxy.uninorte.edu.co:2048/login?url=http://sfxna11.hosted.exlibrisgroup.com/57UNINORTE/az?lang=spa',
     description: 'Explora el listado completo de bases de datos disponibles para estudiantes y profesores de Uninorte.',
   },
   {
     text: 'Repositorio Digital',
     icon: <Archive />,
-    link: 'http://manglar.uninorte.edu.co/',
+    link: 'campusm://openURL?url=https://manglar.uninorte.edu.co/',
     description: 'Consulta y descarga documentos académicos y publicaciones almacenadas en el repositorio digital de Uninorte.',
   },
 ];
@@ -120,7 +120,7 @@ const DatabaseComponent = () => {
           Aprovecha tu cuenta Uninorte para poder acceder a las bases de datos, revistas y artículos académicos. Normalmente estas te pedirían membresía o que pagues por el artículo.
         </Typography>
         <Typography variant="body1" align="right">
-          <Link href="https://uninorte.libguides.com/az.php" target="_blank" rel="noopener" className={classes.linkStyle}>
+          <Link href="campusm://openURL?url=https://uninorte.libguides.com/az.php" target="_blank" rel="noopener" className={classes.linkStyle}>
             Ir a las bases de datos <ArrowForwardIosIcon fontSize="small" />
           </Link>
         </Typography>
