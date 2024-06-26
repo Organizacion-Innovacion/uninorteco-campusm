@@ -1,0 +1,6 @@
+homepage:
+
+  menu:
+    replace:
+      - desc: Multiple Link
+        tileComponent: MultipleLinkTile

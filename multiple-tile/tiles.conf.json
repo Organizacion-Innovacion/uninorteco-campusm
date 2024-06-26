@@ -1,0 +1,7 @@
+{
+  "tileComponents": {
+    "MultipleLinkTile": {
+      "script": "bundle.js"
+    }
+  }
+}
