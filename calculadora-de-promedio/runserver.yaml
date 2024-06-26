@@ -1,0 +1,6 @@
+homepage:
+  menu:
+    replace:
+
+      - desc: Calculadora de Promedio
+        screenName: calculadora-de-promedio
