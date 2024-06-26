@@ -32,7 +32,9 @@ export default function Home() {
         const username = await fetchUserData();
         setUser(username);
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching user data:", err);
+        setError(err);
+        setLoading(false);
       }
     };
 
@@ -52,6 +54,7 @@ export default function Home() {
         setError(null);
         setLoading(false);
       } catch (errorApi) {
+        console.error("Error fetching exam data:", errorApi);
         setError(errorApi);
         setLoading(false);
       }
@@ -67,7 +70,13 @@ export default function Home() {
   }
 
   if (error) {
-    return <p>Hubo un error: {error.message}</p>;
+    return (
+      <Container className={classes.container}>
+        <Typography variant="h6" className={classes.message}>
+          Hubo un error: {error.message}
+        </Typography>
+      </Container>
+    );
   }
 
   if (!dato || Object.keys(dato).length === 0) {
