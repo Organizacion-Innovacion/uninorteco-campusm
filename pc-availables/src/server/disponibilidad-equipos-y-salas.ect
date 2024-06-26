@@ -1,0 +1,19 @@
+<<
+@configure
+  connected: true
+  scripts:[
+    "disponibilidad-equipos-y-salas"
+  ]
+>>
+
+<< extend "templates/master.ect" >>
+
+<< block "init": >>
+
+{% if aek.action == "get-data" %}
+  {% set service = aek.create_service("https://us-central1-fake-api-062024.cloudfunctions.net/api/salas") %}
+  
+  {{ service.set_method("GET") }}
+  {{ aek.respond(service.json) }}
+{% endif %}
+<< end >>

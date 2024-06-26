@@ -1,0 +1,6 @@
+homepage:
+  menu:
+    replace:
+
+      - desc: Disponibilidad Equipos y Salas
+        screenName: disponibilidad-equipos-y-salas
