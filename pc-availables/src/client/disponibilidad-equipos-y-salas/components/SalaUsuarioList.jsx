@@ -1,34 +1,74 @@
 import React, { useState, useEffect } from 'react';
 import SalaUsuarioItem from './SalaUsuarioItem';
 import { fetchData } from '../../../services/get-data';
-import { Grid } from '@mui/material';
+import { Grid, Typography, CircularProgress, Box } from '@mui/material';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import RoomIcon from '@mui/icons-material/Room';
 
 const SalaUsuarioList = () => {
   const [salas, setSalas] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchData()
-      .then(data => setSalas(data))
-      .catch(err => setError(err));
+      .then(data => {
+        setSalas(data);
+        setLoading(false);
+        setError(null); // Limpiar cualquier error previo al cargar correctamente
+      })
+      .catch(err => {
+        setError(err);
+        setLoading(false);
+      });
   }, []);
 
+  if (loading) {
+    return (
+      <div style={{ textAlign: 'center', margin: '20px' }}>
+        <CircularProgress />
+      </div>
+    );
+  }
+
   if (error) {
-    return <div>Error al cargar las salas: {error.message}</div>;
+    return (
+      <Box sx={{ backgroundColor: '#ffffff', color: '#1d1d1b', textAlign: 'center', padding: '20px', marginBottom: 2, boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
+        <ErrorOutlineIcon style={{ fontSize: 40, marginBottom: -8, marginRight: 10, verticalAlign: 'middle' }} />
+        <Typography variant="h5" component="h1" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
+          Error al cargar las salas
+        </Typography>
+        <Typography variant="body1">
+          {error.message}
+        </Typography>
+      </Box>
+    );
   }
 
   if (salas.length === 0) {
-    return <div>No hay datos de salas disponibles</div>;
+    return (
+      <Typography variant="h6" style={{ margin: '20px' }}>
+        No hay datos de salas disponibles
+      </Typography>
+    );
   }
 
   return (
-    <Grid container>
-      {salas.map(sala => (
-        <Grid item xs={6} sm={6} key={sala.id}>
-          <SalaUsuarioItem sala={sala} />
-        </Grid>
-      ))}
-    </Grid>
+    <>
+      <Box sx={{ backgroundColor: '#d10a11', color: '#fff', textAlign: 'center', padding: '20px', marginBottom: 2, boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
+        <RoomIcon style={{ fontSize: 40, marginBottom: -8, marginRight: 10, verticalAlign: 'middle' }} />
+        <Typography variant="h4" component="h1" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
+          Lista de Salas disponibles
+        </Typography>
+      </Box>
+      <Grid container spacing={2}>
+        {salas.map(sala => (
+          <Grid item key={sala.id} xs={12} sm={6} md={6} lg={6}>
+            <SalaUsuarioItem sala={sala} />
+          </Grid>
+        ))}
+      </Grid>
+    </>
   );
 };
 
