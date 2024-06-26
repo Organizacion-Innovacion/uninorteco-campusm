@@ -27,6 +27,12 @@ const useStyles = makeStyles((theme) => ({
   section: {
     marginBottom: theme.spacing(1), // Reducido el espaciado vertical entre secciones
   },
+  error: {
+    color: 'red',
+    fontSize: '1.2rem',
+    fontWeight: 'bold',
+    marginBottom: theme.spacing(2),
+  },
 }));
 
 const HelpdeskForm = () => {
@@ -43,10 +49,15 @@ const HelpdeskForm = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [isSending, setIsSending] = useState(false);
   const [categoriasOptions, setCategoriasOptions] = useState({});
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const getUser = () => {
       request.action("get-user").end((err, res) => {
+        if (err) {
+          setError('Error obteniendo la información del usuario.');
+          return;
+        }
         if (res && res.body) {
           const user = res.body.username;
           setFormData(prevState => ({ ...prevState, user }));
@@ -110,6 +121,10 @@ const HelpdeskForm = () => {
     const { ubicacion, descripcion, ext, categorias } = formData;
     return [ubicacion, descripcion, ext].every(field => field.trim() !== '') && categorias.length > 0;
   };
+
+  if (error) {
+    return <p className={classes.error}>{error}</p>;
+  }
 
   return (
     <form id="formHelpdesk" onSubmit={handleSubmit} encType="multipart/form-data">
