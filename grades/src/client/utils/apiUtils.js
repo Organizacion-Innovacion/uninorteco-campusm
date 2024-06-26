@@ -1,4 +1,3 @@
-// apiUtils.js
 import { getUser } from "../services/userService";
 import { getTerm } from "../services/termService";
 import { getRegistration } from "../services/registrationService";
@@ -10,17 +9,19 @@ export async function fetchUserData() {
     const username = userResponse.split('@')[0];
     return username;
   } catch (error) {
-    throw error;
+    console.error('Error fetching user data:', error);
+    throw new Error('Error obteniendo los datos de usuario. Porfavor intente más tarde.');
   }
 }
 
 export async function fetchUserTerms(user) {
   try {
-    console.log('user on fetchuserTERMS',user);
+    console.log('user on fetchUserTerms', user);
     const termsResponse = await getTerm(user);
     return termsResponse;
   } catch (error) {
-    throw error;
+    console.error('Error fetching user terms:', error);
+    throw new Error('Error obteniendo los periodos del usuario. Porfavor intente más tarde.');
   }
 }
 
@@ -31,12 +32,13 @@ export async function fetchUserGrades(selectedTerm, user) {
       const grades = await getGrades(user, element.SFRSTCR_CRN, selectedTerm);
       return {
         materia: element.SSBSECT_CRSE_TITLE,
-        items: grades.map(({ SHRGCOM_NAME,SHRGCOM_WEIGHT, NOTAA }) => ({ name: SHRGCOM_NAME, peso: SHRGCOM_WEIGHT, value: NOTAA })),
+        items: grades.map(({ SHRGCOM_NAME, SHRGCOM_WEIGHT, NOTAA }) => ({ name: SHRGCOM_NAME, peso: SHRGCOM_WEIGHT, value: NOTAA })),
       };
     });
 
     return await Promise.all(promises);
   } catch (error) {
-    throw error;
+    console.error('Error fetching user grades:', error);
+    throw new Error('Error obteniendo las notas de usuario. Porfavor intente más tarde.');
   }
 }
