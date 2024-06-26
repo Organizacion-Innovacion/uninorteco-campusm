@@ -1,22 +1,23 @@
-import { request } from "@ombiel/aek-lib"
-import { DateTimeService } from "./date-services"
-import { ExamSortingService } from "./sort-services"
+import { request } from "@ombiel/aek-lib";
+import { DateTimeService } from "./date-services";
+import { ExamSortingService } from "./sort-services";
 
 class FinalExamService {
   constructor(user) {
-    this.finalExamResponse = null
-    this.examsLoaded = false
-    this.USER = user
+    this.finalExamResponse = null;
+    this.examsLoaded = false;
+    this.USER = user;
   }
 
   async initializeFinalExamResponse() {
     try {
-      console.log('this.USER',this.USER)
+      console.log('this.USER', this.USER);
       if (!this.examsLoaded) {
         const { error, body } = await new Promise((resolve, reject) => {
-          request.action("get-exams").send({ user: this.USER}).end((e, res) => {
+          request.action("get-exams").send({ user: this.USER }).end((e, res) => {
             if (e) {
-              reject(new Error(e.message));
+              console.error("Error fetching exams:", e);
+              reject(new Error("Failed to fetch exams"));
               return;
             }
             resolve({ error: null, body: res });
@@ -24,6 +25,7 @@ class FinalExamService {
         });
 
         if (error) {
+          console.error("Error in response body:", error);
           throw new Error(`Error fetching exams: ${error}`);
         }
 
@@ -31,71 +33,72 @@ class FinalExamService {
         this.examsLoaded = true;
       }
     } catch (error) {
-      throw new Error(`Error fetching exams: ${error}`);
+      console.error("Error initializing final exam response:", error);
+      throw new Error(`Error initializing final exam response: ${error.message}`);
     }
   }
 
   async ensureFinalExamsLoaded() {
     if (!this.examsLoaded) {
-      await this.initializeFinalExamResponse()
+      await this.initializeFinalExamResponse();
     }
   }
 
   async getGroupExamByDate() {
-    await this.ensureFinalExamsLoaded()
+    await this.ensureFinalExamsLoaded();
 
     try {
       if (!this.finalExamResponse) {
-        return null
+        return null;
       }
-      const allExams = this.finalExamResponse.body.resultado
-      if (allExams.length == 0) {
-        return null
+      const allExams = this.finalExamResponse.body.resultado;
+      if (allExams.length === 0) {
+        return null;
       }
 
-      const sortedExams = ExamSortingService.sortExamsByDate(allExams)
+      const sortedExams = ExamSortingService.sortExamsByDate(allExams);
 
-      const examsByDate = {}
+      const examsByDate = {};
 
       sortedExams.forEach((item) => {
-        const date = item.FECHA
+        const date = item.FECHA;
         if (!examsByDate[date]) {
-          examsByDate[date] = []
+          examsByDate[date] = [];
         }
-        examsByDate[date].push(item)
-      })
-      return ExamSortingService.sortExamsByHour(examsByDate)
+        examsByDate[date].push(item);
+      });
+      return ExamSortingService.sortExamsByHour(examsByDate);
     } catch (error) {
-      throw new Error(`Error grouping exams by date: ${error}`)
+      console.error("Error grouping exams by date:", error);
+      throw new Error(`Error agrupando los exámenes por fecha: ${error.message}`);
     }
   }
 
   async getNextExam() {
-    await this.ensureFinalExamsLoaded()
-    const groupedExams = await this.getGroupExamByDate()
+    await this.ensureFinalExamsLoaded();
+    const groupedExams = await this.getGroupExamByDate();
     if (!groupedExams) {
-      return null
+      return null;
     }
 
-    const currentDate = DateTimeService.getCurrentDate()
-    const currentTime = DateTimeService.getCurrentTime()
+    const currentDate = DateTimeService.getCurrentDate();
+    const currentTime = DateTimeService.getCurrentTime();
 
-    Object.keys(groupedExams).forEach((date) => {
-      const exams = groupedExams[date]
-      exams.forEach((exam) => {
+    for (const date of Object.keys(groupedExams)) {
+      const exams = groupedExams[date];
+      for (const exam of exams) {
         if (DateTimeService.dateCompare(exam.FECHA, currentDate) === 0) {
           if (DateTimeService.compareTimes(exam.HORA, currentTime) > 0) {
-            return exam
+            return exam;
           }
         } else if (DateTimeService.dateCompare(exam.FECHA, currentDate) > 0) {
-          return exam
+          return exam;
         }
-        return null
-      })
-    })
+      }
+    }
 
-    return null
+    return null;
   }
 }
 
-export default FinalExamService
+export default FinalExamService;
