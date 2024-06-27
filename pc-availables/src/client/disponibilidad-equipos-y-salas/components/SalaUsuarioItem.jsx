@@ -1,64 +1,78 @@
 import React from 'react';
-import { Typography, Card, CardActionArea, CardContent, Grid } from '@mui/material';
+import { Typography, Card, CardActionArea, CardContent, Grid, Divider } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import LaptopIcon from '@mui/icons-material/Laptop';
-import { styled } from '@mui/system';
 
-const CustomCard = styled(Card)({
-  backgroundColor: '#ffffff',
-  color: '#1d1d1b',
-  margin: '15px',
-  border: '3px solid #d10a11',
-  '&:hover': {
-    backgroundColor: '#EEEDEB',
-    color: '#1d1d1b',
+// Estilos personalizados
+const useStyles = makeStyles(() => ({
+  card: {
+    position: 'relative',
+    overflow: 'hidden',
+    height: '100%',
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '8px',
+      height: '100%',
+      borderTopLeftRadius: '4px',
+      borderBottomLeftRadius: '4px',
+      backgroundColor: '#960A11', // Color del borde izquierdo
+    },
   },
-});
+  rightBorder: {
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      width: '8px',
+      height: '100%',
+      borderTopRightRadius: '4px',
+      borderBottomRightRadius: '4px',
+      backgroundColor: '#960A11', // Color del borde derecho
+    },
+  },
+  iconContainer: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  icon: {
+    marginRight: '8px', // Espacio entre el icono y el texto
+  },
+  number: {
+    marginRight: '8px', // Espacio entre el número y el icono
+  },
+}));
 
-const CustomCardActionArea = styled(CardActionArea)({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  height: '100%',
-  padding: '10px',
-});
-
-const CustomCardContent = styled(CardContent)({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-});
-
-const CustomTypography = styled(Typography)({
-  fontWeight: 'bold',
-});
-
-const CustomLaptopIcon = styled(LaptopIcon)({
-  color: '#d10a11',
-});
-
-const SalaUsuarioItem = ({ sala }) => {
-  const { nombre, computadorasDisponibles, enlace } = sala; // Destructuración de las propiedades de sala
+const SalaUsuarioItem = ({ sala, isRight }) => {
+  const classes = useStyles(); // Inicializar los estilos
 
   return (
-    <CustomCard variant="outlined">
-      <CustomCardActionArea component="a" href={enlace} target="_blank" rel="noopener noreferrer">
-        <CustomCardContent>
-          <CustomTypography variant="h5" component="h2">
-            {nombre}
-          </CustomTypography>
-          <Grid container alignItems="center">
+    <Card variant="outlined" className={`${classes.card} ${isRight ? classes.rightBorder : ''}`}>
+      <CardActionArea href={sala.enlace} target="_blank" rel="noopener noreferrer">
+        <CardContent>
+          <Typography variant="h5" component="h2">
+            {sala.nombre}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" gutterBottom>
+            Bloque: {sala.bloque}, Piso: {sala.piso}
+          </Typography>
+          <Grid container justifyContent='flex-end' spacing={2}>
             <Grid item>
-              <CustomLaptopIcon />
+              <Divider orientation="vertical" flexItem />
             </Grid>
-            <Grid item>
+            <Grid item className={classes.iconContainer}>
+              <LaptopIcon className={classes.icon} />
               <Typography variant="body2" component="span">
-                {computadorasDisponibles} PCs disponibles
+                {sala.computadorasDisponibles}
               </Typography>
             </Grid>
           </Grid>
-        </CustomCardContent>
-      </CustomCardActionArea>
-    </CustomCard>
+        </CardContent>
+      </CardActionArea>
+    </Card>
   );
 };
 
